@@ -1,0 +1,80 @@
+{
+  "name": "shopify-ai-agent",
+  "version": "1.0.0",
+  "description": "AI shopping agent for Shopify stores — powered by AINative Gateway with ZeroMemory for persistent shopper context. Multi-provider LLM failover, MCP integration, product search, cart management, and checkout.",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "shopify-ai-agent": "dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./mcp": {
+      "import": "./dist/mcp.mjs",
+      "require": "./dist/mcp.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "keywords": [
+    "shopify",
+    "ai",
+    "agent",
+    "chatbot",
+    "shopping-assistant",
+    "mcp",
+    "model-context-protocol",
+    "ecommerce",
+    "ai-shopping",
+    "shopify-app",
+    "shopify-chatbot",
+    "shopify-ai",
+    "storefront",
+    "zeromemory",
+    "ainative",
+    "llm",
+    "claude",
+    "gpt",
+    "product-search",
+    "cart-management",
+    "agentic-commerce"
+  ],
+  "author": "AINative Studio <dev@ainative.studio>",
+  "license": "MIT",
+  "homepage": "https://ainative.studio/shopify",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AINative-Studio/shop-chat-agent"
+  },
+  "bugs": {
+    "url": "https://github.com/AINative-Studio/shop-chat-agent/issues"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.40.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.2.2",
+    "vitest": "^4.0.0",
+    "@vitest/coverage-v8": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ]
+}
