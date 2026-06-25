@@ -254,24 +254,26 @@ export class ShopifyAIAgent {
 }
 
 function formatProduct(p: Record<string, unknown>): Product {
+  // Shopify MCP returns nested price: { amount: 79000, currency: "USD" }
   const priceRange = p.price_range as
-    | { currency: string; min: string }
+    | { min: { amount: number; currency: string }; max: { amount: number; currency: string } }
     | undefined;
-  const variants = p.variants as
-    | Array<{ currency: string; price: string }>
-    | undefined;
-  const price = priceRange
-    ? `${priceRange.currency} ${priceRange.min}`
-    : variants && variants.length > 0
-      ? `${variants[0].currency} ${variants[0].price}`
-      : 'Price not available';
+  const desc = p.description as { html?: string } | string | undefined;
+  const descText = typeof desc === 'string' ? desc : (desc?.html || '');
+  const media = p.media as Array<{ url: string }> | undefined;
+
+  let price = 'Price not available';
+  if (priceRange?.min) {
+    const amt = priceRange.min.amount;
+    price = `${priceRange.min.currency} ${(amt / 100).toFixed(2)}`;
+  }
 
   return {
-    id: (p.product_id as string) || `product-${Math.random().toString(36).slice(2, 9)}`,
+    id: (p.id as string) || `product-${Math.random().toString(36).slice(2, 9)}`,
     title: (p.title as string) || 'Product',
-    description: (p.description as string) || '',
+    description: descText,
     price,
-    imageUrl: (p.image_url as string) || '',
+    imageUrl: media?.[0]?.url || '',
     url: (p.url as string) || '',
   };
 }
